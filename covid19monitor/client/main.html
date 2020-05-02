@@ -3,10 +3,18 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+    {{> navbar}}
+<br><br><br><br><br><br>
+    {{> about}}
 
-  {{> hello}}
-  {{> info}}
+<br><br><br><br><br>
+
+    {{> maincard}}
+    
+    
+
+  <!-- {{> hello}} -->
+  <!-- {{> info}} -->
 </body>
 
 <template name="hello">
@@ -22,4 +30,67 @@
     <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
     <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
   </ul>
+  
 </template>
+
+<template name="navbar">
+  <nav id="navbar_1" class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" style = "padding: 0px; font-size: 20px; font-family: montserrat;">
+    <a class="navbar-brand" href="#" style="padding: 10px; font-size: 30px; font-weight: bold;">ROHIT PATIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-item nav-link active" style="padding: 10px;" href="#Home" >Home </a>
+        <a class="nav-item nav-link" style="padding: 10px;"  href="#About">About</a>
+        <a class="nav-item nav-link" style="padding: 10px;" href="#Projects">Projects</a>
+        <a class="nav-item nav-link" style="padding: 10px;" href="#Acads">Academics</a>
+        <a class="nav-item nav-link" style="padding: 10px;" href="#Resume">Resume</a>
+        <a class="nav-item nav-link" style="padding: 10px;" href="#Internships">Internships</a>
+        <a class="nav-item nav-link" style="padding: 10px;" href="#Interests">Interests</a>
+        <a class="nav-item nav-link" style="padding: 10px;" href="#Contact me">Contact me</a>
+                     
+      </div>
+    </div>
+  </nav>
+
+</template>
+
+<template name="about">
+  <div class = "container-fluid">
+      
+    <div class = "row">
+      <div class="col-sm-12 col-md-4 box ">
+        <img src="rohit.png" class="img-fluid"  alt="alt text">  
+      </div>
+      
+        <div class="col-sm-12 col-md-8 box">
+          <div style="padding-top: 20px; font-family: montserrat ; height: 100%; ">
+          <h3>Hello, I am Rohit Shantaram Patil</h3>
+          <h4>A Computer Science Junior Undergraduate at IIT Gandhinagar </h4>
+          <br><br><br>
+          <h4>Android App Developer/Web Developer</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</template>
+
+<template name = "maincard">
+  <div class = "container center">
+    <div class="btn-group center ">
+      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Action
+      </button>
+      <div class="dropdown-menu">
+        {{#each country}}
+        <a class="dropdown-item" href="#">{{id}}</a>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+
+</template>
+
