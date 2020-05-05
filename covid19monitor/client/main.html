@@ -4,18 +4,22 @@
 
 <body>
     {{> navbar}}
-<br><br><br><br><br><br>
-    {{> about}}
+    <!-- {{> about}} -->
 
-<br><br><br><br><br>
+<br>
 
     {{> maincard}}
-    
+
+<br><br><br><br><br><br>
+
+    <!-- {{> vis}} -->
     
 
-  <!-- {{> hello}} -->
-  <!-- {{> info}} -->
 </body>
+
+<template name="vis">
+  <div id="circles"></div>
+</template>
 
 <template name="hello">
   <button>Click Me</button>
@@ -79,17 +83,55 @@
 
 <template name = "maincard">
   <div class = "container center">
-    <div class="btn-group center ">
-      <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <div  >
+      <!-- <button type="button" class="btn btn-danger dropdown-toggle btn-xl" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Action
-      </button>
-      <div class="dropdown-menu">
+      </button> -->
+      
+      <div class="container " >
+
+        <div class = "container container-extra" style="padding-right: 2%;">
+          <ul class="list-group">
+            <li class = "list-group-item">
+              <div class="country">Country</div>
+              <div class="confirmed">Confirmed</div>
+              <div class = "active">Active</div>
+              <div class = "death">Deaths</div>
+
+
+            </li>
+          </ul>
+
+        </div>
+
+
+        <div class="container container-extra overflow">
+        <ul class = "list-group">        
         {{#each country}}
-        <a class="dropdown-item" href="#">{{id}}</a>
-        {{/each}}
+            <li class = "list-group-item overflow">
+              <div class="country">
+              {{Country}}
+              </div>
+              <div class="confirmed">
+                {{TotalConfirmed}}
+              </div>
+              <div class="active">
+                {{TotalActive}}
+              </div>
+              <div class="death">
+                {{TotalDeaths}}
+              </div>
+            </li>
+            
+            {{/each}}
+            </ul>
+        </div>
       </div>
+
+
     </div>
   </div>
+  <br><br><br><br><br><br><br>  
 
 
 </template>

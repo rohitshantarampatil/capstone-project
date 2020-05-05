@@ -1,24 +1,11 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-
+import '../lib/main.js';
 import './main.html';
-
+Meteor.subscribe("circles");
 Template.hello.onCreated(function helloOnCreated() {
   // counter starts at 0
   this.counter = new ReactiveVar(0);
-      function getdata(){  
-        return $.getJSON( "https://api.apify.com/v2/key-value-stores/tVaYRsPHLjNdNBu7S/records/LATEST?disableRedirect=true", function( data ) {
-          var items = [];
-          $.each( data, function( key, val ) {
-            items.push( [key,val] );
-          });
-          return items
-        });
-    }
-
-    data = getdata();
-    // console.log(data);
-
 });
 
 Template.maincard.onCreated(function(){
@@ -27,28 +14,31 @@ Template.maincard.onCreated(function(){
 
 Template.maincard.helpers({
   country:function(){
-    function getdata(){  
-      return $.getJSON( "https://api.apify.com/v2/key-value-stores/tVaYRsPHLjNdNBu7S/records/LATEST?disableRedirect=true"
-      // , function( data ) {
-      //   // var items = [];
-      //   // $.each( data, function( val ) {
-      //   //   items.push( [val] );
-      //   // });
-      //   // return items
-      //   return data
-      // }
-      );
-  };
+  
+    var settings = {
+      "url": "https://api.covid19api.com/summary",
+      "method": "GET",
+      "async": false,
+      "timeout": 0,
+    };
+    
+    var data = $.parseJSON($.ajax(settings).responseText);
+    console.log(data.Countries);
+    arr =  data.Countries;
+    arr.sort(function(a,b){return  b.TotalConfirmed - a.TotalConfirmed });
+    
+    arr.forEach(function (element) {
+      element.TotalActive = element.TotalConfirmed-element.TotalRecovered;
+    });
+    
+    console.log(arr)
+    
 
-  data = getdata();
-  // console.log(typeof(data));
-  console.log(data);
-  a = data.responseJSON
-  console.log(a)
-  // console.log(data.responseJSON);
-  return [{id:5},{id:4}];
+    return arr;
+  
 
   }
+
 })
 Template.hello.helpers({
   counter() {
@@ -62,3 +52,46 @@ Template.hello.events({
     instance.counter.set(instance.counter.get() + 1);
   },
 });
+
+// Template.vis.rendered = function() {
+//   var svg,
+//     width = 500,
+//     height = 75,
+//     x;
+
+//   svg = d3
+//     .select("#circles")
+//     .append("svg")
+//     .attr("width", width)
+//     .attr("height", height);
+
+//   var drawCircles = function(update) {
+//     var data = Circles.findOne().data;
+//     var circles = svg.selectAll("circle").data(data);
+//     if (!update) {
+//       circles = circles
+//         .enter()
+//         .append("circle")
+//         .attr("cx", function(d, i) {
+//           return x(i);
+//         })
+//         .attr("cy", height / 2);
+//     } else {
+//       circles = circles.transition().duration(1000);
+//     }
+//     circles.attr("r", function(d) {
+//       return d;
+//     });
+//   };
+
+//   Circles.find().observe({
+//     added: function() {
+//       x = d3.scale
+//         .ordinal()
+//         .domain(d3.range(Circles.findOne().data.length))
+//         .rangePoints([0, width], 1);
+//       drawCircles(false);
+//     },
+//     changed: _.partial(drawCircles, true)
+//   });
+// };
