@@ -2,7 +2,10 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import '../lib/main.js';
 import './main.html';
-Meteor.subscribe("circles");
+import './container.html';
+
+var chart;
+
 Template.hello.onCreated(function helloOnCreated() {
   // counter starts at 0
   this.counter = new ReactiveVar(0);
@@ -40,6 +43,23 @@ Template.maincard.helpers({
   }
 
 })
+
+Template.maincard.events({
+  'click .js-click-country'() {
+    // increment the counter when button is clicked
+    slug = this.Slug
+    var settings = {
+      "url": "https://api.covid19api.com/total/country/"+slug,
+      "method": "GET",
+      "async": false,
+      "timeout": 0,
+    };
+    
+    var data = $.parseJSON($.ajax(settings).responseText);
+    console.log(data);
+
+  },
+})
 Template.hello.helpers({
   counter() {
     return Template.instance().counter.get();
@@ -53,45 +73,41 @@ Template.hello.events({
   },
 });
 
-// Template.vis.rendered = function() {
-//   var svg,
-//     width = 500,
-//     height = 75,
-//     x;
 
-//   svg = d3
-//     .select("#circles")
-//     .append("svg")
-//     .attr("width", width)
-//     .attr("height", height);
+// Chart template
+Template.acTemplate.rendered = function() {
+  /*
+    Get container for chart.
+    It is not actually necessary here, `chart.container('container').draw();` can be used
+    for current scope, but container is found in template to avoid container ID duplication.
+   */
+  var container = this.find("#containera");
+    slug = "united-states"
+    var settings = {
+      "url": "https://api.covid19api.com/total/country/"+slug,
+      "method": "GET",
+      "async": false,
+      "timeout": 0,
+    };
+    
+    var dataall = $.parseJSON($.ajax(settings).responseText);
+    console.log("second");
+    console.log(dataall);
 
-//   var drawCircles = function(update) {
-//     var data = Circles.findOne().data;
-//     var circles = svg.selectAll("circle").data(data);
-//     if (!update) {
-//       circles = circles
-//         .enter()
-//         .append("circle")
-//         .attr("cx", function(d, i) {
-//           return x(i);
-//         })
-//         .attr("cy", height / 2);
-//     } else {
-//       circles = circles.transition().duration(1000);
-//     }
-//     circles.attr("r", function(d) {
-//       return d;
-//     });
-//   };
+    var data = dataall.map(a=> ([a.Date, a.Confirmed]));
+    console.log(data);
 
-//   Circles.find().observe({
-//     added: function() {
-//       x = d3.scale
-//         .ordinal()
-//         .domain(d3.range(Circles.findOne().data.length))
-//         .rangePoints([0, width], 1);
-//       drawCircles(false);
-//     },
-//     changed: _.partial(drawCircles, true)
-//   });
-// };
+  // Turn Meteor Collection to simple array of objects.
+//   var data = [{x: 'Department Stores', value: 6371664}
+// ,{x: 'Discount Stores', value: 7216301}
+//   ,{x: 'Men\'s/Women\'s Stores', value: 1486621}
+//   ,{x: 'Juvenile Specialty Stores', value: 786622}
+//   ,{x: 'All other outlets', value: 900000}]
+
+//   //  ----- Standard Anychart API in use -----
+  chart = anychart.line();
+  var series = chart.line(data);
+  chart.container("containera");
+  chart.draw();
+
+};

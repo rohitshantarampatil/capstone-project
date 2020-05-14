@@ -14,6 +14,7 @@
 
     <!-- {{> vis}} -->
     
+    {{> acTemplate}}
 
 </body>
 
@@ -108,19 +109,25 @@
         <div class="container container-extra overflow">
         <ul class = "list-group">        
         {{#each country}}
-            <li class = "list-group-item overflow">
-              <div class="country">
-              {{Country}}
-              </div>
-              <div class="confirmed">
-                {{TotalConfirmed}}
-              </div>
-              <div class="active">
-                {{TotalActive}}
-              </div>
-              <div class="death">
-                {{TotalDeaths}}
-              </div>
+            <li class = "list-group-item  " style="width: 100%;">
+                <div class= "btn container-fluid dropdown-toggle js-click-country" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div class="country">
+                    {{Country}}
+                    </div>
+                    <div class="confirmed">
+                      {{TotalConfirmed}}
+                    </div>
+                    <div class="active">
+                      {{TotalActive}}
+                    </div>
+                    <div class="death">
+                      {{TotalDeaths}}
+                    </div>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">{{Slug}}</a>
+
+                    </div>
+                </div>
             </li>
             
             {{/each}}
