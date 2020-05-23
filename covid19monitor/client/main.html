@@ -13,8 +13,6 @@
 <br><br><br><br><br><br>
 
     <!-- {{> vis}} -->
-    
-    {{> acTemplate}}
 
 </body>
 
@@ -124,7 +122,14 @@
                       {{TotalDeaths}}
                     </div>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">{{Slug}}</a>
+                      <a class="dropdown-item" href="#"> 
+                        <div class = "container" style ="padding: 5px;">
+                          {{#if showpopup}}
+                            {{> chart}}
+                          {{/if}}
+                        </div>
+ 
+                      </a>
 
                     </div>
                 </div>
@@ -132,6 +137,7 @@
             
             {{/each}}
             </ul>
+
         </div>
       </div>
 
@@ -143,3 +149,11 @@
 
 </template>
 
+<template name="chart">
+  <div style = "max-height: 400px; max-width: 400px;">
+  <h2>Chart:Chart</h2>
+  <div id = "container_chart">
+  <canvas id="myChart" width="100px" height="100px"></canvas>
+  </div>
+</div>
+</template>

@@ -9,7 +9,11 @@ Meteor.startup(() => {
     //   };
     //   return Circles.find();
     // });
-   
+    Meteor.publish("chart1", function () {
+      return Budget.find({},{value:1,itemname:1,_id:0});
+      
+    });
   });
 
 });
+
