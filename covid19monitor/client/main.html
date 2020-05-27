@@ -14,7 +14,17 @@
 
     <!-- {{> vis}} -->
 
+
+    {{> twitterfeed}}
+
+    <br><br><br><br><br><br>
+
+
 </body>
+
+
+
+
 
 <template name="vis">
   <div id="circles"></div>
@@ -38,20 +48,20 @@
 
 <template name="navbar">
   <nav id="navbar_1" class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" style = "padding: 0px; font-size: 20px; font-family: montserrat;">
-    <a class="navbar-brand" href="#" style="padding: 10px; font-size: 30px; font-weight: bold;">ROHIT PATIL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
+    <a class="navbar-brand" href="#" style="padding: 10px; font-size: 30px; font-weight: bold;">Covid-19 Monitor &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-item nav-link active" style="padding: 10px;" href="#Home" >Home </a>
-        <a class="nav-item nav-link" style="padding: 10px;"  href="#About">About</a>
-        <a class="nav-item nav-link" style="padding: 10px;" href="#Projects">Projects</a>
+        <a class="nav-item nav-link" style="padding: 10px; padding-left: 100px;"  href="#feed">Feed</a>
+        <!-- <a class="nav-item nav-link" style="padding: 10px;" href="#Projects">Projects</a>
         <a class="nav-item nav-link" style="padding: 10px;" href="#Acads">Academics</a>
         <a class="nav-item nav-link" style="padding: 10px;" href="#Resume">Resume</a>
         <a class="nav-item nav-link" style="padding: 10px;" href="#Internships">Internships</a>
         <a class="nav-item nav-link" style="padding: 10px;" href="#Interests">Interests</a>
-        <a class="nav-item nav-link" style="padding: 10px;" href="#Contact me">Contact me</a>
+        <a class="nav-item nav-link" style="padding: 10px;" href="#Contact me">Contact me</a> -->
                      
       </div>
     </div>
@@ -87,16 +97,15 @@
         Action
       </button> -->
       
-      <div class="container " >
+      <div class="container "   >
 
         <div class = "container container-extra" style="padding-right: 2%;">
-          <ul class="list-group">
-            <li class = "list-group-item">
+          <ul class="list-group" >
+            <li class = "list-group-item" style = "background-color:#eb40349c ;">
               <div class="country">Country</div>
               <div class="confirmed">Confirmed</div>
               <div class = "active">Active</div>
               <div class = "death">Deaths</div>
-
 
             </li>
           </ul>
@@ -104,10 +113,10 @@
         </div>
 
 
-        <div class="container container-extra overflow">
+        <div class="container container-extra overflow" >
         <ul class = "list-group">        
         {{#each country}}
-            <li class = "list-group-item  " style="width: 100%;">
+            <li class = "list-group-item  " style="width: 100%; background-color:#e7988e9c ;">
                 <div class= "btn container-fluid dropdown-toggle js-click-country" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <div class="country">
                     {{Country}}
@@ -123,7 +132,7 @@
                     </div>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <a class="dropdown-item" href="#"> 
-                        <div class = "container" style ="padding: 5px;">
+                        <div class = "container"  style ="padding: 5px; width: 400px; height: 400px;">
                           {{#if showpopup}}
                             {{> chart}}
                           {{/if}}
@@ -150,10 +159,27 @@
 </template>
 
 <template name="chart">
-  <div style = "max-height: 400px; max-width: 400px;">
-  <h2>Chart:Chart</h2>
+  <div >
+  <h2>The Rise of Covid-19</h2>
   <div id = "container_chart">
-  <canvas id="myChart" width="100px" height="100px"></canvas>
+  <canvas id="myChart" width="400px" height="400px"></canvas>
   </div>
 </div>
+</template>
+
+<template name="twitterfeed" id="feed">
+  <div style="text-align: center; font-family: montserrat;font-size: 40px;">Covid-19 News Feed</div>
+  {{#each mainfeed}}
+  <div class = "container card" style=" font-family: montserrat; text-align: center; width: 50%; padding: 20px; border: 1px solid rgb(223, 216, 216); border-radius: 5px; margin-top: 10px;">
+    <div class = "title"> {{title}}</div>
+    <div class = "author">  {{author}}</div>
+    
+    <div class = "container mid">
+      <img class="image" src={{urlToImage}}>
+
+      <div class = "desc" >{{description}} </div>
+    </div>
+
+  </div>
+  {{/each}}
 </template>

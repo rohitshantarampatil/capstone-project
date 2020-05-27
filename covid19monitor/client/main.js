@@ -13,9 +13,32 @@ Template.hello.onCreated(function helloOnCreated() {
   this.counter = new ReactiveVar(0);
 });
 
+
+
+Template.twitterfeed.onCreated(function(){
+  var settings = {
+    "url": "https://newsapi.org/v2/everything?q=COVID&from=2020-05-16&language=en&sortBy=publishedAt&apiKey=d9907f384ea9466f9efa3f7ecefca48d",
+    "method": "GET",
+    "timeout": 0,
+    "async": false,
+
+  };
+  
+  // var data = $.parseJSON($.ajax(settings).responseText);
+  // console.log(data);
+  // var data = NaN;
+  var data = $.ajax(settings).done(function (response) {
+    // console.log(response);
+    return response;
+  });
+  // return(data.responseJSON.articles);
+
+})
 Template.maincard.onCreated(function(){
   console.log("maincard");
 });
+
+
 
 Template.maincard.helpers({
   country:function(){
@@ -96,83 +119,6 @@ Template.chart.onCreated(function() {
 
 
 
-// Chart template
-// Template.acTemplate.onRendered(function render() {
-//   /*
-//     Get container for chart.
-//     It is not actually necessary here, `chart.container('container').draw();` can be used
-//     for current scope, but container is found in template to avoid container ID duplication.
-//    */
-//   console.log("here");
-//   if (Session.get("chart_rendered")){
-//   slug = Session.get("slug_temp");
-//   var container = this.find("#containera");
-//   var settings = {
-//       "url": "https://api.covid19api.com/total/country/"+slug,
-//       "method": "GET",
-//       "async": false,
-//       "timeout": 0,
-//   };
-
-//       var dataall = $.parseJSON($.ajax(settings).responseText);
-    
-    
-//     var data_temp = dataall.map(a=> ([a.Date, a.Confirmed]));
-
-//     // data = data[]
-//       data = data_temp.filter(function(value, index, Arr) {
-//       return index % 5 == 0;
-//         });
-//       console.log(data);
-      
-//       Session.set("chart_rendered",false);
-      
-//   // Turn Meteor Collection to simple array of objects.
-// //   var data = [{x: 'Department Stores', value: 6371664}
-// //   , {x: 'Discount Stores', value: 7216301}
-// //   ,{x: 'Men\'s/Women\'s Stores', value: 1486621}
-// //   ,{x: 'Juvenile Specialty Stores', value: 786622}
-// //   ,{x: 'All other outlets', value: 900000}]
-
-// // //   //  ----- Standard Anychart API in use -----
-//   chart = anychart.line();
-//   var series = chart.line(data);
-//   chart.container("containera");
-//   chart.draw();
-// }
-
-// });
-
-
-// drawchart = function(datavalues,datalabels){
-
-// var data = {
-//  labels: datalabels,
-//  datasets: [
-//      {
-//          label: "My First dataset",
-//          fillColor: "rgba(220,220,0,0.2)",
-//          strokeColor: "rgba(220,220,220,1)",
-//          pointColor: "rgba(220,220,220,1)",
-//          pointStrokeColor: "#fff",
-//          pointHighlightFill: "#fff",
-//          pointHighlightStroke: "rgba(220,220,220,1)",
-//          data: datavalues,
-         
-//      },
-    
-//  ]
-// }; 
-// var ctx = $("#myChart").get(0).getContext("2d");
-// //  new Chart(ctx).Line(data);
-//  var myNewChart = new Chart(ctx , {
-//   type: "line",
-//   data: data, 
-// });
-// };
-
-
-
 
 Template.chart.rendered = function(){
 
@@ -215,15 +161,14 @@ Template.chart.rendered = function(){
                       console.log(datavalues);
                       var data = {
                         labels: datalabels,
+
                         datasets: [
                             {
-                                label: "My First dataset",
-                                fillColor: "rgba(220,220,0,0.2)",
-                                strokeColor: "rgba(220,220,220,1)",
-                                pointColor: "rgba(220,220,220,1)",
-                                pointStrokeColor: "#fff",
-                                pointHighlightFill: "#fff",
-                                pointHighlightStroke: "rgba(220,220,220,1)",
+                                label: Session.get("slug_temp"),
+                                backgroundColor: [
+                                  'rgba(255, 99, 132, 0.2)',
+                                  
+                              ],
                                 data: datavalues,
                                 
                             },
@@ -246,3 +191,40 @@ Template.chart.rendered = function(){
   });
 
 };
+
+
+
+
+Template.twitterfeed.helpers({
+  mainfeed : function(){
+
+    var settings = {
+      "url": "https://newsapi.org/v2/everything?q=COVID&from=2020-05-16&language=en&sortBy=publishedAt&apiKey=d9907f384ea9466f9efa3f7ecefca48d",
+      "method": "GET",
+      "timeout": 0,
+      "async": false,
+  
+    };
+    
+    // var data = $.parseJSON($.ajax(settings).responseText);
+    // console.log(data);
+    // var data = NaN;
+    var data = $.ajax(settings).done(function (response) {
+      // console.log(response);
+      return response;
+    });
+    console.log(data.responseJSON.articles);
+    var mainlist = data.responseJSON.articles.filter(function(a) {if (a.author!=null){return a}}) ;
+    return mainlist;
+  }
+
+})
+
+
+Template.twitterfeed.events({
+  'click .card'(event, instance) {
+    // increment the counter when button is clicked
+    console.log(this.url);
+    window.open(this.url, "_blank"); 
+  },
+});

@@ -11,8 +11,9 @@ body{
 }
 
 .container-extra{
-  max-height:400px;
+  max-height:500px;
   max-width: 85%;
+    
 }
 .overflow{
   overflow: auto;
@@ -22,6 +23,7 @@ body{
   display: inline-block;
   width: 50%;
   text-align: center;
+  
 }
 .confirmed{
   display: inline-block;
@@ -54,3 +56,35 @@ svg circle {
   padding: 0;
 }
                           
+.card{
+  background-color: rgba(26, 5, 2, 0.651);
+  color: white;
+}
+.card:hover{
+  box-shadow: 0 0 51px rgba(15, 8, 8, 0.719); 
+
+}
+.title{
+  font-size: 30px;
+  text-align: left;
+
+}
+.author{
+  text-align: right;
+
+}
+
+.mid{
+  margin-top: 10px;
+  display: inline-flex;
+  text-align: left;
+}
+.image{
+  padding: 5px;
+  max-width: 100px;
+  max-height: 100px;
+}
+.desc{
+  padding: 5px;
+
+}
